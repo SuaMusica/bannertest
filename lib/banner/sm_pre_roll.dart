@@ -44,12 +44,10 @@ class _SMPreRollState extends State<SMPreRoll> {
   @override
   void initState() {
     _preRollController = PreRollController(preRollListener);
-    final usePlatformLink = false;
     _preRoll = PreRoll(
       controller: _preRollController,
-      usePlatformLink: usePlatformLink,
+      usePlatformLink: false,
     );
-    print("USEPLATFORMLINK $usePlatformLink");
     final args = Map<String, String>();
     args["__URL__"] =
         "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480%7C400x300%7C730x400&iu=/7090806/Suamusica.com.br-ROA-Preroll&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.suamusica.com.br%2F&correlator=&tfcd=0&npa=0&cust_params=";
