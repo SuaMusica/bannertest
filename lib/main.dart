@@ -1,5 +1,5 @@
 import 'package:bannertest/banner/sm_pre_roll.dart';
-import 'package:bannertest/banner_page.dart';
+import 'package:bannertest/player_notifier.dart';
 import 'package:bannertest/position_notifier.dart';
 import 'package:bannertest/ui_texts.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Material(child: MyHomePage(title: 'Flutter Demo Home Page')),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<PlayerNotifier>(
+            create: (_) => PlayerNotifier(),
+          ),
+        ],
+        child: Material(
+          child: MyHomePage(title: 'Flutter Demo Home Page'),
+        ),
+      ),
     );
   }
 }
@@ -37,48 +46,64 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            AdBanner(
-              adUnit: UITexts.admobBannerApp,
-            ),
-            AdBanner(
-              adUnit: UITexts.admobBannerSquare,
-            ),
-            RaisedButton(
-              child: Text("Go to PreRoll"),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => MultiProvider(
-                      providers: [
-                        ChangeNotifierProvider<PositionNotifier>(
-                          create: (_) => PositionNotifier(),
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Center(
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: [
+                  AdBanner(
+                    adUnit: UITexts.admobBannerApp,
+                  ),
+                  AdBanner(
+                    adUnit: UITexts.admobBannerSquare,
+                  ),
+                  RaisedButton(
+                    child: Text("Load  PreRoll Stack"),
+                    onPressed: () {
+                      context.read<PlayerNotifier>().notifyHasAds(true);
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text("Go to PreRoll Page"),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider<PositionNotifier>(
+                                create: (_) => PositionNotifier(),
+                              ),
+                            ],
+                            child: Material(
+                                child: SMPreRoll(
+                              newPage: true,
+                            )),
+                          ),
                         ),
-                      ],
-                      child: Material(child: SMPreRoll()),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              if (context.select((PlayerNotifier p) => p.hasAds))
+                MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider<PositionNotifier>(
+                      create: (_) => PositionNotifier(),
                     ),
+                  ],
+                  child: Material(
+                    child: SMPreRoll(),
                   ),
-                );
-              },
-            ),
-            RaisedButton(
-              child: Text("Go to Banner Not fading right"),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => BannerPage(),
-                  ),
-                );
-              },
-            )
-          ],
+                )
+            ],
+          ),
         ),
       ),
     );
