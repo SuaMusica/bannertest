@@ -181,8 +181,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/ads/"
-      ref: HEAD
-      resolved-ref: db12e42afe630f621ed3316b1f902bc85c97a3ac
+      ref: "feature/preparePlay"
+      resolved-ref: e0f6c647c0944651d595f0266e6c8e1b818faf31
       url: "https://github.com/SuaMusica/flutter_plugins.git"
     source: git
     version: "0.0.1"

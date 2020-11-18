@@ -66,11 +66,8 @@ class _SMPreRollState extends State<SMPreRoll> {
       controller: _preRollController,
     );
     final args = Map<String, String>();
-    // args["__URL__"] ="https://pubads.g.doubleclick.net/gampad/ads?sz=640x480%7C400x300%7C730x400&iu=/7090806/Suamusica.com.br-ROA-Preroll&impl=s&gdfp_req=1&env=instream&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.suamusica.com.br%2F&correlator=&tfcd=0&npa=0&cust_params=";
     args["__URL__"] =
         "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=instream&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=";
-
-    args["__CONTENT__"] = 'https://assets.suamusica.com.br/video/silence.mp3';
 
     _preRollController.load(args);
 
